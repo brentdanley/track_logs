@@ -1,0 +1,29 @@
+{
+    "name": "use-mapbox-gl-js-with-react",
+    "version": "0.1.0",
+    "private": true,
+    "dependencies": {
+        "@tmcw/togeojson": "^4.5.0",
+        "mapbox-gl": "^2.6.1",
+        "react": "^17.0.2",
+        "react-color": "^2.19.3",
+        "react-dom": "^17.0.2",
+        "react-scripts": "^4.0.3",
+        "togeojson": "^0.16.0"
+    },
+    "scripts": {
+        "start": "react-scripts start",
+        "build": "react-scripts build"
+    },
+    "eslintConfig": {
+        "extends": [
+            "react-app"
+        ]
+    },
+    "browserslist": [
+        "defaults",
+        "not ie 11"
+    ],
+    "author": "Mapbox",
+    "license": "MIT"
+}
