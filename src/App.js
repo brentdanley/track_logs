@@ -2,7 +2,7 @@ import React, { useRef, useEffect, useState } from 'react';
 import mapboxgl from '!mapbox-gl'; // eslint-disable-line import/no-webpack-loader-syntax
 import { TwitterPicker } from 'react-color';
 
-import myTrack from './track_data/pwm-20220402.geojson';
+import withJoni from './track_data/20220405_flight_joni.geojson';
 
 mapboxgl.accessToken =
   'pk.eyJ1IjoiYnJlbnRmZiIsImEiOiJjbDBjbHN0cDkwMGZmM2lueWF3NWxidXE3In0.suqzxkwsnKEaen07pmwVIw';
@@ -19,7 +19,7 @@ export default function App() {
     if (map.current) return; // initialize map only once
     map.current = new mapboxgl.Map({
       container: mapContainer.current,
-      style: 'mapbox://styles/mapbox/streets-v11',
+      style: 'mapbox://styles/mapbox/satellite-v9',
       center: [lng, lat],
       zoom: zoom
     });
@@ -37,7 +37,7 @@ export default function App() {
       // Define a source before using it to create a new layer
       map.current.addSource('brent-flight', {
         type: 'geojson',
-        data: myTrack
+        data: withJoni
       });
 
       map.current.addLayer({
@@ -60,6 +60,19 @@ export default function App() {
     map.current.setPaintProperty('kpwm-kbxm', 'line-color', color.hex);
   };
 
+  const swatchColors = [
+    '#124fb3',
+    '#317340',
+    '#7a4705',
+    '#e03a07',
+    '#783a40',
+    '#db0b96',
+    '#751c78',
+    '#000000',
+    '#ffffff',
+    '#1d65b3'
+  ];
+
   return (
     <div>
       <div className="sidebar">
@@ -68,6 +81,7 @@ export default function App() {
       <div className="color_picker">
         <TwitterPicker
           color={trackColor}
+          colors={swatchColors}
           onChangeComplete={handleColorChange}
         />
       </div>
