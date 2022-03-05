@@ -13,7 +13,7 @@ export default function App() {
   const [lng, setLng] = useState(-70.0825);
   const [lat, setLat] = useState(43.7677);
   const [zoom, setZoom] = useState(9.93);
-  const [trackColor, setTrackColor] = useState('#F78DA7');
+  const [trackColor, setTrackColor] = useState('#adadad');
 
   useEffect(() => {
     if (map.current) return; // initialize map only once
