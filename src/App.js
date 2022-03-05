@@ -2,7 +2,7 @@ import React, { useRef, useEffect, useState } from 'react';
 import mapboxgl from '!mapbox-gl'; // eslint-disable-line import/no-webpack-loader-syntax
 import { TwitterPicker } from 'react-color';
 
-import withJoni from './track_data/20220405_flight_joni.geojson';
+import myFlightTrack from './track_data/20220405_flight_joni.geojson';
 
 mapboxgl.accessToken =
   'pk.eyJ1IjoiYnJlbnRmZiIsImEiOiJjbDBjbHN0cDkwMGZmM2lueWF3NWxidXE3In0.suqzxkwsnKEaen07pmwVIw';
@@ -37,7 +37,7 @@ export default function App() {
       // Define a source before using it to create a new layer
       map.current.addSource('brent-flight', {
         type: 'geojson',
-        data: withJoni
+        data: myFlightTrack
       });
 
       map.current.addLayer({
