@@ -1,16 +1,22 @@
 import React, { useRef, useEffect, useState } from 'react';
 import mapboxgl from '!mapbox-gl'; // eslint-disable-line import/no-webpack-loader-syntax
+import { gpx } from '@tmcw/togeojson';
 import { TwitterPicker } from 'react-color';
 
 mapboxgl.accessToken =
   'pk.eyJ1IjoiYnJlbnRmZiIsImEiOiJjbDBjbHN0cDkwMGZmM2lueWF3NWxidXE3In0.suqzxkwsnKEaen07pmwVIw';
 
+const getGeoJsonData = async (file) => {
+  const response = await fetch(`/track_data/${file}`);
+  return response.text();
+};
+
 const FlightMap = ({ track }) => {
   const mapContainer = useRef(null);
   const map = useRef(null);
-  const [lng, setLng] = useState(-70.0825);
-  const [lat, setLat] = useState(43.7677);
-  const [zoom, setZoom] = useState(9.93);
+  const [lng, setLng] = useState(-70.529667);
+  const [lat, setLat] = useState(44.9447);
+  const [zoom, setZoom] = useState(14);
   const [trackColor, setTrackColor] = useState('#1d65b3');
 
   useEffect(() => {
@@ -31,11 +37,14 @@ const FlightMap = ({ track }) => {
       setZoom(map.current.getZoom().toFixed(2));
     });
 
-    map.current.on('load', () => {
-      // Define a source before using it to create a new layer
+    map.current.on('load', async () => {
+      const source = await getGeoJsonData('saddleback_joni_20220317.gpx').then(
+        (response) => new DOMParser().parseFromString(response, 'text/xml')
+      );
+      const gpxdata = gpx(source);
       map.current.addSource('brent-flight', {
         type: 'geojson',
-        data: track
+        data: gpxdata
       });
 
       map.current.addLayer({
