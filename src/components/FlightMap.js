@@ -24,8 +24,8 @@ const getCenter = (coords) => {
 const FlightMap = ({ track }) => {
   const mapContainer = useRef(null);
   const map = useRef(null);
-  const [lng, setLng] = useState(0);
-  const [lat, setLat] = useState(0);
+  const [lng, setLng] = useState(-70.31);
+  const [lat, setLat] = useState(43.65);
   const [zoom, setZoom] = useState(14);
   const [trackColor, setTrackColor] = useState('#1d65b3');
 
