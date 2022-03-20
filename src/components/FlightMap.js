@@ -39,7 +39,7 @@ const FlightMap = ({ track }) => {
       });
 
       map.current.addLayer({
-        id: 'kpwm-kbxm',
+        id: 'flight-track',
         type: 'line',
         source: 'brent-flight',
         layout: {
@@ -55,7 +55,7 @@ const FlightMap = ({ track }) => {
 
   const handleColorChange = (color) => {
     setTrackColor(color.hex);
-    map.current.setPaintProperty('kpwm-kbxm', 'line-color', color.hex);
+    map.current.setPaintProperty('flight-track', 'line-color', color.hex);
   };
 
   const swatchColors = [
@@ -73,9 +73,6 @@ const FlightMap = ({ track }) => {
 
   return (
     <div>
-      <div className="sidebar">
-        Longitude: {lng} | Latitude: {lat} | Zoom: {zoom}
-      </div>
       <div className="color_picker">
         <TwitterPicker
           color={trackColor}
