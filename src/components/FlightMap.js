@@ -6,16 +6,26 @@ import { TwitterPicker } from 'react-color';
 mapboxgl.accessToken =
   'pk.eyJ1IjoiYnJlbnRmZiIsImEiOiJjbDBjbHN0cDkwMGZmM2lueWF3NWxidXE3In0.suqzxkwsnKEaen07pmwVIw';
 
-const getGeoJsonData = async (file) => {
-  const response = await fetch(`/track_data/${file}`);
-  return response.text();
+const getCenter = (coords) => {
+  console.log(coords);
+  let lngmin = coords[0][0];
+  let lngmax = coords[0][0];
+  let latmin = coords[0][1];
+  let latmax = coords[0][1];
+  coords.forEach((element) => {
+    if (element[0] < lngmin) lngmin = element[0];
+    if (element[0] > lngmax) lngmax = element[0];
+    if (element[1] < latmin) latmin = element[1];
+    if (element[1] > latmax) latmax = element[1];
+  });
+  return [lngmin + (lngmax - lngmin) / 2, latmin + (latmax - latmin) / 2];
 };
 
 const FlightMap = ({ track }) => {
   const mapContainer = useRef(null);
   const map = useRef(null);
-  const [lng, setLng] = useState(-70.529667);
-  const [lat, setLat] = useState(44.9447);
+  const [lng, setLng] = useState(0);
+  const [lat, setLat] = useState(0);
   const [zoom, setZoom] = useState(14);
   const [trackColor, setTrackColor] = useState('#1d65b3');
 
@@ -38,19 +48,29 @@ const FlightMap = ({ track }) => {
     });
 
     map.current.on('load', async () => {
-      const source = await getGeoJsonData('saddleback_joni_20220317.gpx').then(
-        (response) => new DOMParser().parseFromString(response, 'text/xml')
+      const gpxData = await fetch(`/track_data/${track}`);
+      const gpxText = await gpxData.text();
+      const geoJSONdata = gpx(
+        new DOMParser().parseFromString(gpxText, 'text/xml')
       );
-      const gpxdata = gpx(source);
-      map.current.addSource('brent-flight', {
+
+      setLng(getCenter(geoJSONdata.features[0].geometry.coordinates));
+      setLat(46.9447);
+      console.log(lat);
+      console.log(getCenter(geoJSONdata.features[0].geometry.coordinates));
+      map.current.flyTo({
+        center: getCenter(geoJSONdata.features[0].geometry.coordinates)
+      });
+
+      map.current.addSource('tracklayer', {
         type: 'geojson',
-        data: gpxdata
+        data: geoJSONdata
       });
 
       map.current.addLayer({
-        id: 'flight-track',
+        id: 'track',
         type: 'line',
-        source: 'brent-flight',
+        source: 'tracklayer',
         layout: {
           visibility: 'visible'
         },
@@ -64,7 +84,7 @@ const FlightMap = ({ track }) => {
 
   const handleColorChange = (color) => {
     setTrackColor(color.hex);
-    map.current.setPaintProperty('flight-track', 'line-color', color.hex);
+    map.current.setPaintProperty('track', 'line-color', color.hex);
   };
 
   const swatchColors = [
