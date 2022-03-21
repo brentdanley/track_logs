@@ -23,7 +23,7 @@ const getBoundingBox = (coords) => {
   ];
 };
 
-const FlightMap = ({ track, color }) => {
+const FlightMap = ({ track, color, label }) => {
   const mapContainer = useRef(null);
   const map = useRef(null);
   const [lng, setLng] = useState(-70.31);
@@ -110,6 +110,7 @@ const FlightMap = ({ track, color }) => {
         />
       </div>
       <div ref={mapContainer} className="map-container" />
+      <p className="map-label">{label}</p>
     </div>
   );
 };

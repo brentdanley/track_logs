@@ -26,3 +26,19 @@ body {
   left: 0;
   width: fit-content;
 }
+
+.map-label {
+  position: absolute;
+  z-index: 2;
+  top: 0;
+  left: 0;
+  background: hsla(205, 0%, 74%, 0.63);
+  color: black;
+  border-radius: 5px;
+  height: 2rem;
+  margin: 1rem;
+  padding: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
