@@ -63,9 +63,8 @@ const FlightMap = ({ track, color }) => {
 
       map.current
         .fitBounds(
-          getBoundingBox(geoJSONdata.features[0].geometry.coordinates, {
-            padding: 20
-          })
+          getBoundingBox(geoJSONdata.features[0].geometry.coordinates),
+          { padding: 25 }
         )
 
         .addSource('tracklayer', {
