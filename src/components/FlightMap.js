@@ -107,7 +107,7 @@ const FlightMap = ({ track, color }) => {
   ];
 
   return (
-    <div>
+    <div className="track-map-container">
       <div className="color_picker">
         <TwitterPicker
           color={trackColor}
