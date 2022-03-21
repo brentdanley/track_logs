@@ -6,7 +6,7 @@ import { TwitterPicker } from 'react-color';
 mapboxgl.accessToken =
   'pk.eyJ1IjoiYnJlbnRmZiIsImEiOiJjbDBjbHN0cDkwMGZmM2lueWF3NWxidXE3In0.suqzxkwsnKEaen07pmwVIw';
 
-const getCenter = (coords) => {
+const getBoundingBox = (coords) => {
   let lngmin = coords[0][0];
   let lngmax = coords[0][0];
   let latmin = coords[0][1];
@@ -17,7 +17,6 @@ const getCenter = (coords) => {
     if (element[1] < latmin) latmin = element[1];
     if (element[1] > latmax) latmax = element[1];
   });
-  // return [lngmin + (lngmax - lngmin) / 2, latmin + (latmax - latmin) / 2];
   return [
     [lngmin, latmin],
     [lngmax, latmax]
@@ -62,12 +61,9 @@ const FlightMap = ({ track, color }) => {
         geoJSONdata = kml(new DOMParser().parseFromString(xmlText, 'text/xml'));
       }
 
-      setLng(getCenter(geoJSONdata.features[0].geometry.coordinates));
-      setLat(46.9447);
-
       map.current
         .fitBounds(
-          getCenter(geoJSONdata.features[0].geometry.coordinates, {
+          getBoundingBox(geoJSONdata.features[0].geometry.coordinates, {
             padding: 20
           })
         )
