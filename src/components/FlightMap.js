@@ -50,14 +50,14 @@ const FlightMap = ({ track, color }) => {
     });
 
     map.current.on('load', async () => {
-      const filetype = track.slice(-4, track.length);
+      const filetype = track.slice(-3, track.length);
 
       const rawTrackData = await fetch(`/track_data/${track}`);
       const xmlText = await rawTrackData.text();
       let geoJSONdata;
-      if (filetype === '.gpx') {
+      if (filetype === 'gpx') {
         geoJSONdata = gpx(new DOMParser().parseFromString(xmlText, 'text/xml'));
-      } else if (filetype === '.kml') {
+      } else if (filetype === 'kml') {
         geoJSONdata = kml(new DOMParser().parseFromString(xmlText, 'text/xml'));
       }
 
